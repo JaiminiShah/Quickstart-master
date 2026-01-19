@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class MecanumDrive2025 {
@@ -13,6 +15,7 @@ public class MecanumDrive2025 {
      DcMotor mainIntake;
      DcMotorEx Launcher1;
      DcMotorEx Launcher2;
+     Servo shooter;
      final String TELEOP = "TELEOP";
      final String AUTO_BLUE = "AUTO BLUE";
      final String AUTO_RED = " AUTO RED";
@@ -32,13 +35,21 @@ public class MecanumDrive2025 {
         mainIntake=hardwareMap.dcMotor.get("intake");
         Launcher1= (DcMotorEx) hardwareMap.dcMotor.get("launcher1");
         Launcher2=(DcMotorEx) hardwareMap.dcMotor.get("launcher2");
+        shooter=(Servo)hardwareMap.dcMotor.get("shooter");
 
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        Launcher1.setDirection(DcMotorSimple.Direction.REVERSE);
+        mainIntake.setDirection(DcMotorSimple.Direction.REVERSE);
+
          frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         Launcher1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+         Launcher2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+         mainIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
     public void setPowers(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower) {
          double maxSpeed = 1.0;

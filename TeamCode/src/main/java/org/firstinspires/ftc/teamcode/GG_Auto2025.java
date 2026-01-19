@@ -15,20 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-/*
- * This file includes an autonomous file for the goBILDA® StarterBot for the
- * 2025-2026 FIRST® Tech Challenge season DECODE™. It leverages a differential/Skid-Steer
- * system for robot mobility, one high-speed motor driving two "launcher wheels," and two servos
- * which feed that launcher.
- *
- * This robot starts up against the goal and launches all three projectiles before driving away
- * off the starting line.
- *
- * This program leverages a "state machine" - an Enum which captures the state of the robot
- * at any time. As it moves through the autonomous period and completes different functions,
- * it will move forward in the enum. This allows us to run the autonomous period inside of our
- * main robot "loop," continuously checking for conditions that allow us to move to the next step.
- */
+
 
 @Autonomous(name="GG_Auto2025", group="Auto")
 //@Disabled

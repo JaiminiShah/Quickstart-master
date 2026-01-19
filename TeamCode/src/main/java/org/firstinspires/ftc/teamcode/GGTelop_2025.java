@@ -22,6 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
      public void init() {
          drive.init(hardwareMap);
 
+
          imu = hardwareMap.get(IMU.class, "imu");
          RevHubOrientationOnRobot revHubOrientationOnRobot =
                  new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -44,11 +45,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
          }
     public void manualCoreHexAndServoControl() {
         // Manual control for the Core Hex intake
-        if (gamepad1.cross) {
+        if (gamepad2.cross) {
             drive.mainIntake.setPower(0.5);
-        } else if (gamepad1.triangle) {
+        } else if (gamepad2.triangle) {
             drive.mainIntake.setPower(-0.5);
         }
+
       /*  // Manual control for the hopper's servo
         if (gamepad1.dpad_left) {
             dservo.setPower(1);
@@ -62,13 +64,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
      * The bumpers will activate the flywheel, Core Hex feeder, and servo to cycle a series of balls.
      */
     public void setFlywheelVelocity() {
+
         if (gamepad2.options) {
             drive.Launcher1.setPower(-0.5);
             drive.Launcher2.setPower(-0.5);
         } else if (gamepad2.left_bumper) {
-            farPowerAuto();
+            farShot();
         } else if (gamepad2.right_bumper) {
-            bankShotAuto();
+            backShot();
         } else if (gamepad2.circle) {
             ((DcMotorEx) drive.Launcher1).setVelocity(drive.bankVelocity);
             ((DcMotorEx) drive.Launcher2).setVelocity(drive.bankVelocity);
@@ -79,7 +82,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
         } else {
             ((DcMotorEx) drive.Launcher1).setVelocity(0);
-            ((DcMotorEx) drive.Launcher1).setVelocity(0);
+            ((DcMotorEx) drive.Launcher2).setVelocity(0);
             drive.mainIntake.setPower(0);
             // The check below is in place to prevent stuttering with the servo. It checks if the servo is under manual control!
            /* if (!gamepad1.dpad_right && !gamepad1.dpad_left) {
@@ -92,7 +95,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
      * When running this function, the flywheel will spin up and the Core Hex will wait before balls can be fed.
      * The servo will spin until the bumper is released.
      */
-    public void bankShotAuto() {
+    public void backShot() {
         ((DcMotorEx) drive.Launcher1).setVelocity(drive.bankVelocity);
         ((DcMotorEx) drive.Launcher2).setVelocity(drive.bankVelocity);
         //servo.setPower(-1);
@@ -107,7 +110,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
      * When running this function, the flywheel will spin up and the Core Hex will wait before balls can be fed.
      * The servo will spin until the bumper is released.
      */
-    public void farPowerAuto() {
+    public void farShot() {
         ((DcMotorEx) drive.Launcher1).setVelocity(drive.farVelocity);
         ((DcMotorEx)drive.Launcher2).setVelocity(drive.farVelocity);
         //servo.setPower(-1);
