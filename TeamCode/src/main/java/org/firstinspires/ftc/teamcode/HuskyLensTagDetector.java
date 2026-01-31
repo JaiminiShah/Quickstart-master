@@ -99,7 +99,7 @@ public class HuskyLensTagDetector {
      * Gets a list of all tags detected in the last scan.
      * @return A List of HuskyLens.Block objects, potentially empty.
      */
-    public List<HuskyLens.Block> getAllDetectedTags() {
+   /* public List<HuskyLens.Block> getAllDetectedTags() {
         HuskyLens.Block[] blocks = huskyLens.blocks();
         List<HuskyLens.Block> tagList = new ArrayList<>();
         if (blocks.length > 0) {
@@ -108,5 +108,5 @@ public class HuskyLensTagDetector {
             }
         }
         return tagList;
-    }
+    }*/
 }

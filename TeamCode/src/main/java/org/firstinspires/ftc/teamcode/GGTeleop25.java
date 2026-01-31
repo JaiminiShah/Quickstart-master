@@ -4,47 +4,56 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import org.firstinspires.ftc.teamcode.MecanumDrive2025.*;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.control.PIDFController;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.math.MathFunctions;
+import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import java.util.List;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-
 @TeleOp()
-  class GGTeleop_2025 extends OpMode {
-     MecanumDrive2025 drive = new MecanumDrive2025();
-     HuskyLensTagDetector h1=new HuskyLensTagDetector(hardwareMap,"huskeylens");
-     IMU imu;
+class GGTeleop25 extends OpMode {
+    MecanumDrive2025 drive = new MecanumDrive2025();
+    IMU imu;
+
     // Setting our velocity targets. These values are in ticks per second!
   /*  private static final int bankVelocity = 1300;
     private static final int farVelocity = 1900;
     private static final int maxVelocity = 2200;*/
 
-     @Override
-     public void init() {
-         drive.init(hardwareMap);
+    @Override
+    public void init() {
+        drive.init(hardwareMap);
 
 
-         imu = hardwareMap.get(IMU.class, "imu");
-         RevHubOrientationOnRobot revHubOrientationOnRobot =
-                 new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
-                 imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
+        imu = hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot revHubOrientationOnRobot =
+                new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
+        imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
 
-         }
+    }
 
-         public void driveFieldRelative(double forward, double right, double rotate) {
-         double robotAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-         // convert to polar
-         double theta = Math.atan2(forward, right);
-         double r = Math.hypot(forward, right);
-         // rotate angle
-         theta = AngleUnit.normalizeRadians(theta - robotAngle);
-         // convert back to cartesian
-         double newForward = r * Math.sin(theta);
-         double newRight = r * Math.cos(theta);
-         drive.drive(newForward, newRight, rotate);
-         }
+    public void driveFieldRelative(double forward, double right, double rotate) {
+        double robotAngle = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        // convert to polar
+        double theta = Math.atan2(forward, right);
+        double r = Math.hypot(forward, right);
+        // rotate angle
+        theta = AngleUnit.normalizeRadians(theta - robotAngle);
+        // convert back to cartesian
+        double newForward = r * Math.sin(theta);
+        double newRight = r * Math.cos(theta);
+        drive.drive(newForward, newRight, rotate);
+    }
     public void manualCoreHexAndServoControl() {
         // Manual control for the Core Hex intake
         if (gamepad2.cross) {
@@ -123,15 +132,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
         }
     }
 
- public void loop() {
-         double forward = -gamepad1.left_stick_y;
-         double right = gamepad1.left_stick_x;
-         double rotate = gamepad1.right_stick_x;
-
-         driveFieldRelative(forward, right, rotate);
-         h1.scanForTags();
-         if (h1.tagWasDetected()){
-             backShot();
-         }
-         }
+    public void loop() {
+        double forward = -gamepad1.left_stick_y;
+        double right = gamepad1.left_stick_x;
+        double rotate = gamepad1.right_stick_x;
+        driveFieldRelative(forward, right, rotate);
+    }
 }
